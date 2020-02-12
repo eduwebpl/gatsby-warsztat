@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import ArticlePreview from '../components/ArticlePreview/ArticlePreview';
 import PageInfo from '../components/PageInfo/PageInfo';
 
 const ArticlesWrapper = styled.div`

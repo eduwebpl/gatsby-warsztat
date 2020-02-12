@@ -8,7 +8,7 @@ const MainLayout = ({children}) => (
     <Navigation />
     {children}
   </>
-);
+)
 
 export default MainLayout;
 

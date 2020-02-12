@@ -32,28 +32,60 @@ const pageData = {
 const ContactPage = () => (
     <>
         <PageInfo title={pageData.title} paragraph={pageData.paragraph} />
-      <form>
-        <StyledLabel htmlFor="name">Name</StyledLabel>
-        <StyledInput
-          id="name"
-          type="text"
-          name="name"
-        />
-        <StyledLabel htmlFor="e-mail">E-mail</StyledLabel>
-        <StyledInput
-          id="email"
-          type="e-mail"
-          name="email"
-        />
-        <StyledLabel>Message</StyledLabel>
-        <StyledInput
-          as="textarea"
-          type="text"
-          name="message"
-          id="message"
-        />
-        <Button>send message</Button>
-      </form>
+        <Formik
+            initialValues={{ name: '', email: '', message: '' }}
+            onSubmit={(values, { setSubmitting }) => {
+                axios.post('https://us-central1-gatsby-warsztaty.cloudfunctions.net/sendEmail', values)
+                .then((res) => {
+                    console.log(res);
+                    setSubmitting(false);
+                })
+                .catch((err) => {
+                    console.log(err);
+                    setSubmitting(false);
+                });
+            }}
+        >
+            {({
+                values,
+                handleChange,
+                handleBlur,
+                handleSubmit,
+                isSubmitting
+            }) => (
+                    <form onSubmit={handleSubmit}>
+                        <StyledLabel htmlFor="name">Name</StyledLabel>
+                        <StyledInput 
+                            id="name"
+                            type="text"
+                            name="name"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.name} 
+                        />
+                        <StyledLabel htmlFor="e-mail">E-mail</StyledLabel>
+                        <StyledInput 
+                            id="email"
+                            type="e-mail"
+                            name="email"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.email} 
+                        />
+                        <StyledLabel>Message</StyledLabel>
+                        <StyledInput 
+                            as="textarea" 
+                            type="text" 
+                            name="message" 
+                            id="message" 
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.message} 
+                        />
+                        <Button disabled={isSubmitting}>send message</Button>
+                    </form>
+                )}
+        </Formik>
     </>
 );
 
